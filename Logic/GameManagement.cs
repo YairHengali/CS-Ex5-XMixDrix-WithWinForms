@@ -1,6 +1,7 @@
 ﻿namespace Logic
 {
     public delegate void CurrentPlayerChangedDelegate(int i_NewCurrentPlayerIndex);
+    public delegate void CurrentStateChangedDelegate(eGameState i_NewCurrentState, string i_CurrentPlayerName, int i_Player1Score, int i_Player2Score);
 
     public class GameManagement
     {
@@ -8,7 +9,8 @@
         private Player m_CurrentPlayer = null;
         private GameBoard m_Board = null;
         private eGameState m_CurrentState = eGameState.Running;
-        public event CurrentPlayerChangedDelegate AlterCurrentPlayer;
+        public event CurrentPlayerChangedDelegate CurrentPlayerChanged;
+        public event CurrentStateChangedDelegate CurrentStateChangedFromRunning;
 
         public Player[] Players
         {
@@ -77,9 +79,9 @@
 
         protected virtual void OnCurrentPlayerChanged(int i_NewCurrentPlayerIndex)
         {
-            if (AlterCurrentPlayer != null)
+            if (CurrentPlayerChanged != null)
             {
-                AlterCurrentPlayer.Invoke(i_NewCurrentPlayerIndex);
+                CurrentPlayerChanged.Invoke(i_NewCurrentPlayerIndex);
             }
         }
 
@@ -89,10 +91,20 @@
             {
                 m_CurrentState = eGameState.DecidedWinner;
                 m_CurrentPlayer.Score++;
+                OnCurrentStateChanged();
             }
             else if (m_Board.IsFilled())
             {
                 m_CurrentState = eGameState.DecidedTie;
+                OnCurrentStateChanged();
+            }
+        }
+
+        protected virtual void OnCurrentStateChanged()
+        {
+            if (CurrentStateChangedFromRunning != null)
+            {
+                CurrentStateChangedFromRunning.Invoke(m_CurrentState, m_CurrentPlayer.PlayerName, m_Players[0].Score, m_Players[1].Score);
             }
         }
 
