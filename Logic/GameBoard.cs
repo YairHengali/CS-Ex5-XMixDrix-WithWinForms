@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Logic
 {
-    public delegate void CellContentChangeEventHandler(int i_Row, int i_Col, eGameComponent i_CellContent);
+    public delegate void CellContentChangeEventHandler(int i_Row, int i_Col, eGameComponent i_NewCellContent);
 
     public class GameBoard
     {
@@ -15,7 +15,7 @@ namespace Logic
         {
             r_BoardSize = i_Size;
             m_Board = new eGameComponent[r_BoardSize, r_BoardSize];
-            this.MakeEmpty();
+            this.FillBoardWithEmptyCells();
         }
 
         public int Size
@@ -26,7 +26,7 @@ namespace Logic
             }
         }
 
-        public void MakeEmpty()
+        public void FillBoardWithEmptyCells()
         {
             for (int i = 0; i < r_BoardSize; i++)
             {

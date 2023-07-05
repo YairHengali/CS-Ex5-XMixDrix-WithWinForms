@@ -1,7 +1,7 @@
 ﻿namespace Logic
 {
-    public delegate void CurrentPlayerChangedDelegate(int i_NewCurrentPlayerIndex);
-    public delegate void CurrentStateChangedDelegate(eGameState i_NewCurrentState, string i_CurrentPlayerName, int i_Player1Score, int i_Player2Score);
+    public delegate void CurrentPlayerChangeDelegate(int i_NewCurrentPlayerIndex);
+    public delegate void CurrentStateChangeDelegate(eGameState i_NewCurrentState, string i_CurrentPlayerName, int i_Player1Score, int i_Player2Score);
 
     public class GameManagement
     {
@@ -9,8 +9,8 @@
         private Player m_CurrentPlayer = null;
         private GameBoard m_Board = null;
         private eGameState m_CurrentState = eGameState.Running;
-        public event CurrentPlayerChangedDelegate CurrentPlayerChanged;
-        public event CurrentStateChangedDelegate CurrentStateChangedFromRunning;
+        public event CurrentPlayerChangeDelegate CurrentPlayerChanged;
+        public event CurrentStateChangeDelegate CurrentStateChangedFromRunning;
 
         public Player[] Players
         {
@@ -120,7 +120,7 @@
 
         public void SetupNewRound()
         {
-            m_Board.MakeEmpty();
+            m_Board.FillBoardWithEmptyCells();
             m_CurrentPlayer = m_Players[0];
             OnCurrentPlayerChanged(0);
             m_CurrentState = eGameState.Running;

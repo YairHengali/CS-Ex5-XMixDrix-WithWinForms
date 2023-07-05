@@ -35,19 +35,20 @@
     <StartupObject />
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="ePlayerChar.cs" />
-    <Compile Include="SettingsDialog.cs">
+    <Compile Include="FormSettingsDialog.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="SettingsDialog.Designer.cs">
-      <DependentUpon>SettingsDialog.cs</DependentUpon>
+    <Compile Include="FormSettingsDialog.Designer.cs">
+      <DependentUpon>FormSettingsDialog.cs</DependentUpon>
     </Compile>
-    <Compile Include="UserInterface.cs" />
-    <Compile Include="XMixDrix.cs">
+    <Compile Include="FormXMixDrix.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="XMixDrix.Designer.cs">
-      <DependentUpon>XMixDrix.cs</DependentUpon>
+    <Compile Include="FormXMixDrix.Designer.cs">
+      <DependentUpon>FormXMixDrix.cs</DependentUpon>
+    </Compile>
+    <Compile Include="IndexedButton.cs">
+      <SubType>Component</SubType>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -61,11 +62,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="SettingsDialog.resx">
-      <DependentUpon>SettingsDialog.cs</DependentUpon>
+    <EmbeddedResource Include="FormSettingsDialog.resx">
+      <DependentUpon>FormSettingsDialog.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="XMixDrix.resx">
-      <DependentUpon>XMixDrix.cs</DependentUpon>
+    <EmbeddedResource Include="FormXMixDrix.resx">
+      <DependentUpon>FormXMixDrix.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

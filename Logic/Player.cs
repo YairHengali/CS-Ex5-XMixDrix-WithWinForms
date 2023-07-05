@@ -1,14 +1,11 @@
 ﻿namespace Logic
 {
-    //public delegate void ScoreChangeDelegate(int i_Score);
-
     public class Player
     {
         private readonly ePlayerType r_PlayerType;
         private readonly eGameComponent r_PlayerSign;
         private int m_Score = 0;
         private readonly string r_PlayerName;
-        //public event ScoreChangeDelegate ScoreChanged;
 
         public Player(ePlayerType i_PlayerType, eGameComponent i_PlayerSign, string i_PlayerName)
         {
@@ -45,7 +42,6 @@
                 if (value > 0)
                 {
                     m_Score = value;
-                    //OnScoreChanged(m_Score);
                 }
             }
         }
@@ -57,13 +53,5 @@
                 return r_PlayerName;
             }
         }
-
-        //protected virtual void OnScoreChanged(int i_Score)
-        //{
-        //    if (ScoreChanged != null)
-        //    {
-        //        ScoreChanged.Invoke(i_Score);
-        //    }
-        //}
     }
 }

@@ -11,12 +11,13 @@ using Logic;
 
 namespace UI
 {
-    public partial class SettingsDialog : Form
+    public partial class FormSettingsDialog : Form
     {
-        public SettingsDialog()
+        public FormSettingsDialog()
         {
             InitializeComponent();
         }
+
         public string Player1Name
         {
             get
@@ -24,6 +25,7 @@ namespace UI
                 return textBoxPlayer1.Text;
             }
         }
+
         public string Player2Name
         {
             get
@@ -45,6 +47,7 @@ namespace UI
                 return resultType;
             }
         }
+
         public int BoardSize
         {
             get
@@ -52,10 +55,12 @@ namespace UI
                 return int.Parse(numericUpDownCols.Value.ToString());
             }
         }
+
         private void checkBoxPlayer2_CheckedChanged(object sender, EventArgs e)
         {
             textBoxPlayer2.Enabled = checkBoxPlayer2.Checked;
         }
+
         private void textBoxPlayer2_EnabledChanged(object sender, EventArgs e)
         {
             if (textBoxPlayer2.Enabled == true)
@@ -67,6 +72,7 @@ namespace UI
                 textBoxPlayer2.Text = "[Computer]";
             }
         }
+
         private void buttonStart_Click(object sender, EventArgs e)
         {
             DialogResult = DialogResult.OK;
@@ -77,6 +83,7 @@ namespace UI
         {
             numericUpDownCols.Value = numericUpDownRows.Value;
         }
+
         private void numericUpDownCols_ValueChanged(object sender, EventArgs e)
         {
             numericUpDownRows.Value = numericUpDownCols.Value;
