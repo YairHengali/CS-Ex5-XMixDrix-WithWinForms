@@ -1,12 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
-using Ex02.ConsoleUtils;
 using Logic;
 
 namespace UI
@@ -14,7 +8,7 @@ namespace UI
     public partial class FormXMixDrix : Form
     {
         private readonly FormSettingsDialog r_SettingsForm;
-        private GameManagement m_Game = new GameManagement();
+        private readonly GameManagement r_Game = new GameManagement();
 
         public FormXMixDrix()
         {
@@ -28,14 +22,14 @@ namespace UI
         {
             if (r_SettingsForm.DialogResult == DialogResult.OK)
             {
-                m_Game.SetBoardBySize(r_SettingsForm.BoardSize);
+                r_Game.SetBoardBySize(r_SettingsForm.BoardSize);
                 if (r_SettingsForm.PlayerType == ePlayerType.Computer)
                 {
-                    m_Game.InitPlayers(r_SettingsForm.PlayerType, r_SettingsForm.Player1Name);
+                    r_Game.InitPlayers(r_SettingsForm.PlayerType, r_SettingsForm.Player1Name);
                 }
                 else
                 {
-                    m_Game.InitPlayers(r_SettingsForm.PlayerType, r_SettingsForm.Player1Name, r_SettingsForm.Player2Name);
+                    r_Game.InitPlayers(r_SettingsForm.PlayerType, r_SettingsForm.Player1Name, r_SettingsForm.Player2Name);
                 }
             }
             else
@@ -46,11 +40,11 @@ namespace UI
 
         private void xMixDrix_Load(object sender, EventArgs e)
         {
-            m_Game.CurrentPlayerChanged += m_Game_CurrentPlayerChanged;
-            m_Game.CurrentStateChangedFromRunning += m_Game_CurrentStateChangedFromRunning;
+            r_Game.CurrentPlayerChanged += m_Game_CurrentPlayerChanged;
+            r_Game.CurrentStateChangedFromRunning += m_Game_CurrentStateChangedFromRunning;
             createBoardButtons();
             setPlayersLabels();
-            m_Game.SetupNewRound();
+            r_Game.SetupNewRound();
         }
 
         private void m_Game_CurrentStateChangedFromRunning(eGameState i_NewCurrentState, string i_CurrentPlayerName, int i_Player1Score, int i_Player2Score)
@@ -70,7 +64,7 @@ namespace UI
             {
                 player1ScoreLabel.Text = i_Player1Score.ToString();
                 player2ScoreLabel.Text = i_Player2Score.ToString();
-                m_Game.SetupNewRound();
+                r_Game.SetupNewRound();
             }
             else
             {
@@ -80,18 +74,18 @@ namespace UI
 
         private void createBoardButtons()
         {
-            tableLayoutPanelOfButtons.RowCount = m_Game.Board.Size;
-            tableLayoutPanelOfButtons.ColumnCount = m_Game.Board.Size;
+            tableLayoutPanelOfButtons.RowCount = r_Game.Board.Size;
+            tableLayoutPanelOfButtons.ColumnCount = r_Game.Board.Size;
 
-            for (int i = 1; i <= m_Game.Board.Size; i++)
+            for (int i = 1; i <= r_Game.Board.Size; i++)
             {
-                for (int j = 1; j <= m_Game.Board.Size; j++)
+                for (int j = 1; j <= r_Game.Board.Size; j++)
                 {
                     IndexedButton cellButton = new IndexedButton(i, j);
                     cellButton.Name = string.Format($"{i},{j}");
                     cellButton.Size = new Size(40, 40);
                     cellButton.MouseClick += cellButton_MouseClick;
-                    m_Game.Board.CellContentChanged += board_CellContentChanged;
+                    r_Game.Board.CellContentChanged += board_CellContentChanged;
                     this.tableLayoutPanelOfButtons.Controls.Add(cellButton);
                 }
             }
@@ -111,8 +105,8 @@ namespace UI
 
         private void setPlayersLabels()
         {
-            player1NameLabel.Text = string.Format($"{m_Game.Players[0].PlayerName}: ");
-            player2NameLabel.Text = string.Format($"{m_Game.Players[1].PlayerName}: ");
+            player1NameLabel.Text = string.Format($"{r_Game.Players[0].PlayerName}: ");
+            player2NameLabel.Text = string.Format($"{r_Game.Players[1].PlayerName}: ");
             player1NameLabel.Top = tableLayoutPanelOfButtons.Height + 10;
             player1NameLabel.Left = ClientSize.Width / 2 - ((player1NameLabel.Width + player1ScoreLabel.Width + player2NameLabel.Width + player2ScoreLabel.Width + 20) / 2);
             player1NameLabel.Left = (player1NameLabel.Left < 0) ? 0 : player1NameLabel.Left;
@@ -146,13 +140,14 @@ namespace UI
         {
             int row = (sender as IndexedButton).Row;
             int col = (sender as IndexedButton).Col;
-            m_Game.MakeMove(row, col);
-            m_Game.CheckCurrentState(row, col);
-            if (m_Game.GetCurrentPlayerType() == ePlayerType.Computer)
+
+            r_Game.MakeMove(row, col);
+            r_Game.CheckCurrentState(row, col);
+            if (r_Game.GetCurrentPlayerType() == ePlayerType.Computer)
             {
-                m_Game.GetComputerMove(out row, out col);
-                m_Game.MakeMove(row, col);
-                m_Game.CheckCurrentState(row, col);
+                r_Game.GetComputerMove(out row, out col);
+                r_Game.MakeMove(row, col);
+                r_Game.CheckCurrentState(row, col);
             }
         }
     }

@@ -1,22 +1,22 @@
 ﻿namespace Logic
 {
-    public delegate void CurrentPlayerChangeDelegate(int i_NewCurrentPlayerIndex);
-    public delegate void CurrentStateChangeDelegate(eGameState i_NewCurrentState, string i_CurrentPlayerName, int i_Player1Score, int i_Player2Score);
+    public delegate void CurrentPlayerChangeEventHandler(int i_NewCurrentPlayerIndex);
+    public delegate void CurrentStateChangeEventHandler(eGameState i_NewCurrentState, string i_CurrentPlayerName, int i_Player1Score, int i_Player2Score);
 
     public class GameManagement
     {
-        private Player[] m_Players = new Player[2];
+        private readonly Player[] r_Players = new Player[2];
         private Player m_CurrentPlayer = null;
         private GameBoard m_Board = null;
         private eGameState m_CurrentState = eGameState.Running;
-        public event CurrentPlayerChangeDelegate CurrentPlayerChanged;
-        public event CurrentStateChangeDelegate CurrentStateChangedFromRunning;
+        public event CurrentPlayerChangeEventHandler CurrentPlayerChanged;
+        public event CurrentStateChangeEventHandler CurrentStateChangedFromRunning;
 
         public Player[] Players
         {
             get
             {
-                return m_Players;
+                return r_Players;
             }
         }
 
@@ -48,8 +48,8 @@
 
         public void InitPlayers(ePlayerType i_GameStyle, string i_Player1Name, string i_Player2Name = "Computer")
         {
-            m_Players[0] = new Player(ePlayerType.Human, eGameComponent.X, i_Player1Name);
-            m_Players[1] = new Player(i_GameStyle, eGameComponent.O, i_Player2Name);
+            r_Players[0] = new Player(ePlayerType.Human, eGameComponent.X, i_Player1Name);
+            r_Players[1] = new Player(i_GameStyle, eGameComponent.O, i_Player2Name);
         }
 
         public bool IsValidMove(int i_Row, int i_Col)
@@ -65,14 +65,14 @@
 
         private void alterCurrentPlayer()
         {
-            if (m_CurrentPlayer == m_Players[0])
+            if (m_CurrentPlayer == r_Players[0])
             {
-                m_CurrentPlayer = m_Players[1];
+                m_CurrentPlayer = r_Players[1];
                 OnCurrentPlayerChanged(1);
             }
             else
             {
-                m_CurrentPlayer = m_Players[0];
+                m_CurrentPlayer = r_Players[0];
                 OnCurrentPlayerChanged(0);
             }
         }
@@ -91,20 +91,20 @@
             {
                 m_CurrentState = eGameState.DecidedWinner;
                 m_CurrentPlayer.Score++;
-                OnCurrentStateChanged();
+                OnCurrentStateChangedFromRunning();
             }
             else if (m_Board.IsFilled())
             {
                 m_CurrentState = eGameState.DecidedTie;
-                OnCurrentStateChanged();
+                OnCurrentStateChangedFromRunning();
             }
         }
 
-        protected virtual void OnCurrentStateChanged()
+        protected virtual void OnCurrentStateChangedFromRunning()
         {
             if (CurrentStateChangedFromRunning != null)
             {
-                CurrentStateChangedFromRunning.Invoke(m_CurrentState, m_CurrentPlayer.PlayerName, m_Players[0].Score, m_Players[1].Score);
+                CurrentStateChangedFromRunning.Invoke(m_CurrentState, m_CurrentPlayer.PlayerName, r_Players[0].Score, r_Players[1].Score);
             }
         }
 
@@ -121,7 +121,7 @@
         public void SetupNewRound()
         {
             m_Board.FillBoardWithEmptyCells();
-            m_CurrentPlayer = m_Players[0];
+            m_CurrentPlayer = r_Players[0];
             OnCurrentPlayerChanged(0);
             m_CurrentState = eGameState.Running;
         }

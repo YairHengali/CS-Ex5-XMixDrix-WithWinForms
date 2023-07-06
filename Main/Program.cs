@@ -2,8 +2,6 @@
 using System.Windows.Forms;
 using System;
 
-
-
 namespace Main
 {
     static class Program
