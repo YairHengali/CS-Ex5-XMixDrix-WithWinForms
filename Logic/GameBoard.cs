@@ -8,13 +8,13 @@ namespace Logic
     public class GameBoard
     {
         private readonly int r_BoardSize;
-        private eGameComponent[,] m_Board;
+        private readonly eGameComponent[,] r_Board;
         public event CellContentChangeEventHandler CellContentChanged;
 
         public GameBoard(int i_Size)
         {
             r_BoardSize = i_Size;
-            m_Board = new eGameComponent[r_BoardSize, r_BoardSize];
+            r_Board = new eGameComponent[r_BoardSize, r_BoardSize];
             this.FillBoardWithEmptyCells();
         }
 
@@ -32,7 +32,7 @@ namespace Logic
             {
                 for (int j = 0; j < r_BoardSize; j++)
                 {
-                    m_Board[i, j] = eGameComponent.Empty;
+                    r_Board[i, j] = eGameComponent.Empty;
                     OnCellContentChanged(i + 1, j + 1, eGameComponent.Empty);
                 }
             }
@@ -40,12 +40,12 @@ namespace Logic
 
         public eGameComponent GetCellValue(int i_Row, int i_Col) 
         {
-            return m_Board[i_Row - 1, i_Col - 1];
+            return r_Board[i_Row - 1, i_Col - 1];
         } 
 
         public void SetCellValue(int i_Row, int i_Col, eGameComponent i_Value)
         {
-            m_Board[i_Row - 1, i_Col - 1] = i_Value;
+            r_Board[i_Row - 1, i_Col - 1] = i_Value;
             OnCellContentChanged(i_Row, i_Col, i_Value);
         }
 
@@ -73,7 +73,7 @@ namespace Logic
 
             for (int j = 0; j < r_BoardSize; j++)
             {
-                if (m_Board[i_Row, j] != m_Board[i_Row, i_Col])
+                if (r_Board[i_Row, j] != r_Board[i_Row, i_Col])
                 {
                     areAllSame = false;
                     break;
@@ -89,7 +89,7 @@ namespace Logic
 
             for (int i = 0; i < r_BoardSize; i++)
             {
-                if (m_Board[i, i_Col] != m_Board[i_Row, i_Col])
+                if (r_Board[i, i_Col] != r_Board[i_Row, i_Col])
                 {
                     areAllSame = false;
                     break;
@@ -106,7 +106,7 @@ namespace Logic
 
             for (int i = 0; i < r_BoardSize; i++)
             {
-                if (m_Board[i, i] != m_Board[i_Row, i_Col])
+                if (r_Board[i, i] != r_Board[i_Row, i_Col])
                 {
                     areAllSame1 = false;
                     break;
@@ -115,7 +115,7 @@ namespace Logic
 
             for (int i = 0; i < r_BoardSize && !areAllSame1; i++)
             {
-                if (m_Board[i, r_BoardSize - 1 - i] != m_Board[i_Row, i_Col])
+                if (r_Board[i, r_BoardSize - 1 - i] != r_Board[i_Row, i_Col])
                 {
                     areAllSame2 = false;
                     break;
@@ -134,7 +134,7 @@ namespace Logic
             {
                 for (int j = 0; j < r_BoardSize; j++)
                 {
-                    if (m_Board[i, j] == eGameComponent.Empty)
+                    if (r_Board[i, j] == eGameComponent.Empty)
                     {
                         emptyCells.Add(i * r_BoardSize + j);
                     }
@@ -156,7 +156,7 @@ namespace Logic
             {
                 for (int j = 0; j < r_BoardSize; j++)
                 {
-                    if (m_Board[i, j] == eGameComponent.Empty)
+                    if (r_Board[i, j] == eGameComponent.Empty)
                     {
                         isFilled = false;
                         break;
